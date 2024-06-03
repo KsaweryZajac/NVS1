@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container  mt-5">
+    <div class="container bg-light quiz-container p-4" style="border-radius: 20px;">
+        <div id="quiz" class="text-center"></div>
+    </div>
+</div>
+    <script src="fragen.js"></script>
+    <script>
+        const quiz = document.getElementById("quiz");
+        let aktuelleFrageIndex = 0;
+        let punktzahl = 0;
+
+        function renderQuestion(index) {
+            quiz.innerHTML = '';
+
+            if (index >= fragen.length) {
+                quiz.innerHTML = `<h4>Dein Punktestand: ${punktzahl} von ${fragen.length}</h4>`;
+                return;
+            }
+
+            const aktuelleFrage = fragen[index];
+            const frageContainer = document.createElement("div");
+
+            frageContainer.innerHTML = `<h5>${aktuelleFrage.frage}</h5>`;
+
+            const optionenContainer = document.createElement("div");
+            optionenContainer.classList.add("row", "mt-4");
+
+            aktuelleFrage.optionen.forEach(option => {
+                const optionElement = document.createElement("div");
+                optionElement.classList.add("col-6", "mb-3");
+
+                const optionButton = document.createElement("button");
+                optionButton.textContent = option;
+                optionButton.classList.add("option", "btn", "btn-light", "bg-white", "btn-block", "border");
+                optionButton.addEventListener("click", () => handleAnswer(option, aktuelleFrage.antwort));
+
+                optionElement.appendChild(optionButton);
+                optionenContainer.appendChild(optionElement);
+            });
+
+            frageContainer.appendChild(optionenContainer);
+            quiz.appendChild(frageContainer);
+        }
+
+        function handleAnswer(ausgewählteOption, richtigeAntwort) {
+            if (ausgewählteOption === richtigeAntwort) {
+                punktzahl++;
+            }
+
+            renderQuestion(++aktuelleFrageIndex);
+        }
+
+        renderQuestion(aktuelleFrageIndex);
+    </script>
+</body>
+</html>
