@@ -13,9 +13,11 @@
     </div>
 </div>
     <script src="fragen.js"></script>
+    <style>.option:hover {background-color: #686868 !important; color: #fff !important;}</style>
     <script>
         const quiz = document.getElementById("quiz");
         let aktuelleFrageIndex = 0;
+        let aktuelleFrageAnzeige = 1;
         let punktzahl = 0;
 
         function renderQuestion(index) {
@@ -29,7 +31,7 @@
             const aktuelleFrage = fragen[index];
             const frageContainer = document.createElement("div");
 
-            frageContainer.innerHTML = `<h5>${aktuelleFrage.frage}</h5>`;
+            frageContainer.innerHTML = `<h6>(${aktuelleFrageAnzeige}/${fragen.length})</h6> <h5>${aktuelleFrage.frage}</h5>`;
 
             const optionenContainer = document.createElement("div");
             optionenContainer.classList.add("row", "mt-4");
@@ -57,6 +59,8 @@
             }
 
             renderQuestion(++aktuelleFrageIndex);
+            renderQuestion(++aktuelleFrageAnzeige);
+
         }
 
         renderQuestion(aktuelleFrageIndex);
